@@ -1,0 +1,136 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{framed}
+\usepackage{xfrac}
+\usepackage[most]{tcolorbox}
+\usepackage{fix-cm}
+\usetikzlibrary{quotes,angles}
+\usetikzlibrary{calc}
+\usepgfplotslibrary{fillbetween}
+
+\let\bf\textbf
+\colorlet{shadecolor}{orange!15}
+\pgfplotsset{compat=1.18}
+\newcommand\der[2]{\frac{d #1}{d #2}}
+\newcommand\Deltax{\Delta x}
+\newcommand{\AxisRotator}[1][rotate=0]{%
+    \tikz [x=0.25cm,y=0.60cm,line width=.2ex,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
+}
+\def\centerarc[#1](#2)(#3:#4:#5){\draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5)}
+% Syntax: \centerarc[draw options] (center) (initial angle:final angle:radius);
+
+\title{Techniques of Integration}
+\author{Calculus: Early Transcendentals 9e}
+\date{}
+
+\begin{document}
+\maketitle
+\setcounter{section}{7}
+\subsection{Integration by Parts}
+Recall the product rule:
+\begin{align*}
+    \der{}{x}\big[f(x)g(x)\big] = f(x)g'(x) + g(x)f'(x)
+\end{align*}
+Written as an integral:
+\begin{align*}
+    \int\big[f(x)g'(x) + g(x)f'(x)\big]dx = f(x)g(x)
+\end{align*}
+or
+\begin{align*}
+    \int f(x)g'(x)dx + \int g(x)f'(x)dx = f(x)g(x)
+\end{align*}
+This can be rearranged to:
+\begin{equation}
+    \int f(x)g'(x)dx = f(x)g(x) - \int g(x)f'(x)dx
+\end{equation}
+This is the equation for integration by parts. To make it easier to read, let $u = f(x)$ and $v = g(x)$. The differentials are $du = f'(x)dx$ and $dv = g'(x)dx$. This makes the formula for integration by parts:
+\begin{equation}
+    \int u\;dv = uv - \int v\;du
+\end{equation}
+\begin{shaded}
+    \noindent\bf{Example 1}
+    \vspace{2mm}\\
+    Find $\displaystyle\int x\sin(x)dx$
+    \begin{align*}
+        u = x \hspace{10mm} dv = \sin(x)dx
+    \end{align*}
+    Take the derivative of $u$ and antiderivative of $dv$, therefore:
+    \begin{align*}
+        du = dx \hspace{10mm} v = -\cos(x)
+    \end{align*}
+    Using formula 1:
+    \begin{align*}
+        \int x\sin(x)dx &= -x\cos(x) + \int \cos(x)dx\\
+        &= -x\cos(x) + \sin(x) + C
+    \end{align*}
+\end{shaded}
+\noindent In general, the function chosen to be $u = f(x)$ is one that becomes simpler or at least not more complicated when differentiated. $u$ can be determined using the priority list:
+\begin{center}
+    \begin{tabularx}{0.3\textwidth}{
+        | >{\raggedright\arraybackslash}X
+        | >{\raggedright\arraybackslash}X | }
+        \hline
+        Logarithmic & $\ln(x)$\\
+        \hline
+        Inverse Trig & $\tan^{-1}(x)$\\
+        \hline
+        Algebraic & $5x^2 + 3$\\
+        \hline
+        Trigonometric & $\cos(x)$\\
+        \hline
+        Exponential & $10^x$\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\pagebreak
+
+\begin{shaded}
+    \noindent\bf{Example 2}
+    \vspace{2mm}\\
+    Find $\displaystyle\int \ln(x)dx$
+    \begin{align*}
+        u &= \ln(x) \hspace{10mm} dv = dx\\
+        du &= \frac{1}{x} \hspace{16.5mm} v = x
+    \end{align*}
+    Therefore:
+    \begin{align*}
+        \int \ln(x)dx &= x\ln(x) - \int x\bigg(\frac{1}{x}\bigg)dx\\
+        &= x\ln(x) - x + C
+    \end{align*}
+\end{shaded}
+
+\begin{shaded}
+    \noindent\bf{Example 3}
+    \vspace{2mm}\\
+    Find $\displaystyle\int t^2e^t dt$
+    \begin{align*}
+        u &= t^2 \hspace{10mm} dv = e^tdt\\
+        du &= 2tdt \hspace{8.5mm} v = e^t
+    \end{align*}
+    Therefore:
+    \begin{align*}
+        \int t^2e^tdt = t^2e^t - 2\int te^tdt
+    \end{align*}
+    The integral $\displaystyle\int te^tdt$ also requires integration by parts
+    \begin{align*}
+        u_1 &= t \hspace{10mm} dv = e^tdt\\
+        du_1 &= dt \hspace{10mm} v = e^t
+    \end{align*}
+    Therefore:
+    \begin{align*} 
+        \int t^2e^tdt &= t^2e^t - 2\Big(te^t - \int e^tdt \Big)\\
+        &= t^2e^t - 2te^t + 2e^t
+    \end{align*}
+\end{shaded}
+\end{document}
